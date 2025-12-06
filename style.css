@@ -292,7 +292,7 @@ a {
     display: block;
 }
 .project-link {
-    display: block;
+    display: contents;
     text-decoration: none;
     cursor: pointer;
 }
