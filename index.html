@@ -182,6 +182,9 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
             </div>
         </div>
 
+        <div class="projects-toggle">
+            <button id="toggleProjects" class="btn">+ Show more</button>
+        </div>
        <section id="contact" class="contact">
         <div class="container contact-container">
             <h2>Contact</h2>
@@ -206,13 +209,62 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
             const toggleBtn = document.getElementById('toggleProjects');
             const buttons = document.querySelectorAll('.filter-btn');
             const allItems = Array.from(document.querySelectorAll('.project-item'));
-
-            // Filtering
+            
+            if(!grid || !toggleBtn) return;
+            
+            let isExpanded = false;
+            const maxItemsToShow = 4; // 2 columns x 2 rows
+            
             function setActiveButton(btn){
                 buttons.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
             }
-
+            
+            function getVisibleItems(){
+                return allItems.filter(i => !i.classList.contains('hidden'));
+            }
+            
+            function updateDisplay(){
+                const visible = getVisibleItems();
+                const count = visible.length;
+                
+                // If 4 or fewer items, show all and hide button
+                if(count <= maxItemsToShow){
+                    visible.forEach(item => item.style.display = '');
+                    grid.style.maxHeight = 'none';
+                    toggleBtn.style.display = 'none';
+                    return;
+                }
+                
+                // More than 4 items: show button
+                toggleBtn.style.display = '';
+                
+                if(isExpanded){
+                    // Show all
+                    visible.forEach(item => item.style.display = '');
+                    grid.style.maxHeight = 'none';
+                    toggleBtn.textContent = '- Show less';
+                } else {
+                    // Show only first 4, hide rest
+                    visible.forEach((item, idx) => {
+                        item.style.display = idx < maxItemsToShow ? '' : 'none';
+                    });
+                    // Calculate height to show exactly 2 rows
+                    setTimeout(()=>{
+                        const items4 = Array.from(grid.querySelectorAll('.project-item')).filter(i => i.style.display !== 'none').slice(0, 4);
+                        if(items4.length >= 2){
+                            const lastItem = items4[items4.length - 1];
+                            const gridRect = grid.getBoundingClientRect();
+                            const itemRect = lastItem.getBoundingClientRect();
+                            const height = itemRect.bottom - gridRect.top + 20;
+                            grid.style.maxHeight = height + 'px';
+                        }
+                    }, 0);
+                    toggleBtn.textContent = '+ Show more';
+                }
+            }
+            
+            // Filter logic
             function filterProjects(filter){
                 allItems.forEach(item => {
                     const cats = (item.dataset.categories || '').toLowerCase().split(',').map(s=>s.trim()).filter(Boolean);
@@ -222,76 +274,29 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
                         item.classList.add('hidden');
                     }
                 });
+                isExpanded = false;
+                setTimeout(updateDisplay, 60);
             }
-
+            
+            // Toggle button click
+            toggleBtn.addEventListener('click', ()=>{
+                isExpanded = !isExpanded;
+                updateDisplay();
+            });
+            
+            // Filter buttons
             buttons.forEach(btn => {
                 btn.addEventListener('click', (e)=>{
                     const filter = btn.dataset.filter;
                     setActiveButton(btn);
                     filterProjects(filter);
-                    // reapply clamp after filtering
-                    setTimeout(applyClamp, 60);
                 });
             });
-
-            // Clamp / toggle behavior
-            if(!grid || !toggleBtn) return;
-            let collapsed = true;
-            const rowsToShow = 2;
-
-            function getVisibleItems(){
-                return Array.from(grid.querySelectorAll('.project-item')).filter(i => !i.classList.contains('hidden'));
-            }
-
-            function getColumns(){
-                const cols = window.getComputedStyle(grid).gridTemplateColumns;
-                if(!cols) return 2;
-                return cols.split(' ').length || 2;
-            }
-
-            function applyClamp(){
-                const items = getVisibleItems();
-                const cols = getColumns();
-                const threshold = cols * rowsToShow;
-                if(items.length <= threshold){
-                    grid.style.maxHeight = null;
-                    grid.style.overflow = null;
-                    toggleBtn.style.display = 'none';
-                    return;
-                }
-
-                toggleBtn.style.display = '';
-
-                if(!collapsed){
-                    grid.style.maxHeight = null;
-                    grid.style.overflow = null;
-                    toggleBtn.textContent = '- Show less';
-                    toggleBtn.setAttribute('aria-expanded', 'true');
-                    return;
-                }
-
-                const lastIdx = threshold - 1;
-                const lastItem = items[lastIdx];
-                if(!lastItem) return;
-                const gridRect = grid.getBoundingClientRect();
-                const itemRect = lastItem.getBoundingClientRect();
-                const maxH = (itemRect.top + itemRect.height) - gridRect.top;
-                grid.style.maxHeight = Math.ceil(maxH) + 'px';
-                grid.style.overflow = 'hidden';
-                toggleBtn.textContent = '+ Show more';
-                toggleBtn.setAttribute('aria-expanded', 'false');
-            }
-
-            toggleBtn.addEventListener('click', ()=>{
-                collapsed = !collapsed;
-                applyClamp();
-            });
-
-            window.addEventListener('resize', ()=> setTimeout(applyClamp, 80));
-
-            // initial
+            
+            window.addEventListener('resize', ()=> setTimeout(updateDisplay, 80));
+            
+            // Initial state
             filterProjects('all');
-            setTimeout(applyClamp, 60);
         })();
         </script>
         <script>
