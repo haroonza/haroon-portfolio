@@ -237,13 +237,17 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
             }
 
             function clearCarouselElements(){
-                // remove any existing carousel pages and controls
-                const existingPages = grid.querySelectorAll('.carousel-page');
-                existingPages.forEach(p => p.remove());
-                if(carousel.controlsEl){ carousel.controlsEl.remove(); carousel.controlsEl = null; }
+                // remove any existing carousel wrapper (contains pages, controls, everything)
+                const existingWrapper = grid.querySelector('.carousel-wrapper');
+                if(existingWrapper) existingWrapper.remove();
+                
+                // remove indicators
+                const existingIndicators = grid.parentNode.querySelector('.carousel-indicators');
+                if(existingIndicators) existingIndicators.remove();
+                
                 if(carousel.interval){ clearInterval(carousel.interval); carousel.interval = null; }
                 grid.classList.remove('carousel-mode');
-                carousel = { active:false, pages:[], current:0, interval:null, controlsEl:null };
+                carousel = { active:false, pages:[], current:0, interval:null, controlsEl:null, indicatorsEl:null };
             }
 
             function setupCarousel(filter){
@@ -303,12 +307,6 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
                     grid.parentNode.insertBefore(indicators, grid.nextSibling);
                     carousel.indicatorsEl = indicators;
                     
-                    // Auto-advance carousel
-                    if(carousel.pages.length > 1){
-                        carousel.interval = setInterval(()=> {
-                            showPage((carousel.current + 1) % carousel.pages.length);
-                        }, 4000);
-                    }
                     carousel.active = true;
                     carousel.current = 0;
                 }
