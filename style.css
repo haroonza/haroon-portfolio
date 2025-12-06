@@ -322,6 +322,10 @@ a {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
 }
+.project-grid {
+    position: relative;
+    transition: max-height 0.36s ease;
+}
 .project-item {
     display: block;
 }
@@ -546,4 +550,14 @@ a {
 
 .project-item.hidden {
     display: none !important;
+}
+
+.projects-toggle {
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
+}
+.projects-toggle .btn {
+    padding: 10px 20px;
+    border-radius: 30px;
 }

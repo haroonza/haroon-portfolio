@@ -53,6 +53,10 @@ and SOC automation.</p>
                     </div>
                 </div>
         </div>
+
+        <div class="projects-toggle" aria-hidden="false">
+            <button id="toggleProjects" class="btn" aria-expanded="false">+ Show more</button>
+        </div>
         <div class="home-img">
             <div class="img-box">
                 <div class="img-item">
@@ -196,11 +200,14 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
        </section>
 
         <script>
-        // Projects filter - simple version
+        // Project grid clamp + filter (combined script)
         (function(){
+            const grid = document.querySelector('.project-grid');
+            const toggleBtn = document.getElementById('toggleProjects');
             const buttons = document.querySelectorAll('.filter-btn');
             const allItems = Array.from(document.querySelectorAll('.project-item'));
 
+            // Filtering
             function setActiveButton(btn){
                 buttons.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
@@ -222,11 +229,69 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
                     const filter = btn.dataset.filter;
                     setActiveButton(btn);
                     filterProjects(filter);
+                    // reapply clamp after filtering
+                    setTimeout(applyClamp, 60);
                 });
             });
 
-            // initial state - show all
+            // Clamp / toggle behavior
+            if(!grid || !toggleBtn) return;
+            let collapsed = true;
+            const rowsToShow = 2;
+
+            function getVisibleItems(){
+                return Array.from(grid.querySelectorAll('.project-item')).filter(i => !i.classList.contains('hidden'));
+            }
+
+            function getColumns(){
+                const cols = window.getComputedStyle(grid).gridTemplateColumns;
+                if(!cols) return 2;
+                return cols.split(' ').length || 2;
+            }
+
+            function applyClamp(){
+                const items = getVisibleItems();
+                const cols = getColumns();
+                const threshold = cols * rowsToShow;
+                if(items.length <= threshold){
+                    grid.style.maxHeight = null;
+                    grid.style.overflow = null;
+                    toggleBtn.style.display = 'none';
+                    return;
+                }
+
+                toggleBtn.style.display = '';
+
+                if(!collapsed){
+                    grid.style.maxHeight = null;
+                    grid.style.overflow = null;
+                    toggleBtn.textContent = '- Show less';
+                    toggleBtn.setAttribute('aria-expanded', 'true');
+                    return;
+                }
+
+                const lastIdx = threshold - 1;
+                const lastItem = items[lastIdx];
+                if(!lastItem) return;
+                const gridRect = grid.getBoundingClientRect();
+                const itemRect = lastItem.getBoundingClientRect();
+                const maxH = (itemRect.top + itemRect.height) - gridRect.top;
+                grid.style.maxHeight = Math.ceil(maxH) + 'px';
+                grid.style.overflow = 'hidden';
+                toggleBtn.textContent = '+ Show more';
+                toggleBtn.setAttribute('aria-expanded', 'false');
+            }
+
+            toggleBtn.addEventListener('click', ()=>{
+                collapsed = !collapsed;
+                applyClamp();
+            });
+
+            window.addEventListener('resize', ()=> setTimeout(applyClamp, 80));
+
+            // initial
             filterProjects('all');
+            setTimeout(applyClamp, 60);
         })();
         </script>
         <script>
