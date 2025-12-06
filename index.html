@@ -144,14 +144,14 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
        <section id="contact" class="contact">
         <div class="container contact-container">
             <h2>Contact</h2>
-            <form id="contactForm" class="contact-form">
+            <form id="contactForm" class="contact-form" action="https://formspree.io/f/xgvgzqvg" method="POST">
                 <div class="form-row">
                     <input type="text" id="name" name="name" placeholder="Your Name" required>
                     <input type="email" id="email" name="email" placeholder="Your Email" required>
                 </div>
                 <textarea id="message" name="message" rows="6" placeholder="Message" required></textarea>
                 <div class="form-actions">
-                    <button type="submit" class="btn">Send Message</button>
+                    <button type="submit" class="btn" id="submitBtn">Send Message</button>
                     <p class="form-note" id="formNote"></p>
                 </div>
             </form>
@@ -193,32 +193,21 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
         })();
         </script>
         <script>
-        // Contact form: open mail client with form content
+        // Contact form: Formspree submission handler
         (function(){
             const form = document.getElementById('contactForm');
             const note = document.getElementById('formNote');
+            const submitBtn = document.getElementById('submitBtn');
             if(!form) return;
 
             form.addEventListener('submit', function(e){
-                e.preventDefault();
                 note.textContent = '';
-                const name = document.getElementById('name').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const message = document.getElementById('message').value.trim();
-                if(!name || !email || !message){
-                    note.textContent = 'Please fill all fields.';
-                    return;
-                }
-
-                const to = 'haroonzaman80@gmail.com';
-                const subject = encodeURIComponent('Portfolio contact from ' + name);
-                const body = encodeURIComponent('Name: ' + name + "\nEmail: " + email + "\n\n" + message);
-                // open user's mail client
-                window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
-
-                // optionally show a note (mail client opens)
-                note.textContent = 'Opening your mail app...';
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
             });
+
+            // Formspree redirects on success, but we can add a message if needed
+            // The form will naturally submit to Formspree
         })();
         </script>
         <script>
