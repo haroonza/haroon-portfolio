@@ -257,7 +257,7 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
                         const slice = visible.slice(i, i+perPage);
                         const page = document.createElement('div');
                         page.className = 'carousel-page';
-                        page.style.opacity = (i===0? '1' : '0');
+                        if(i === 0) page.classList.add('active');
                         // use clones so we don't disturb original layout
                         slice.forEach(item => {
                             const clone = item.cloneNode(true);
@@ -299,8 +299,11 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
             function showPage(idx){
                 if(!carousel.active) return;
                 carousel.pages.forEach((p, i) => {
-                    p.style.transition = 'opacity 0.6s ease';
-                    p.style.opacity = (i === idx ? '1' : '0');
+                    if(i === idx){
+                        p.classList.add('active');
+                    } else {
+                        p.classList.remove('active');
+                    }
                 });
                 carousel.current = idx;
             }
