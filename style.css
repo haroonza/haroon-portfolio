@@ -329,8 +329,10 @@ a {
     padding: 80px 9%;
     background: #1f242d;
     color: #ffffff;
+    display: flex;
+    justify-content: center;
 }
-.contact .contact-container { max-width: 900px; }
+.contact .contact-container { max-width: 900px; width: 100%; margin: 0 auto; }
 .contact h2 { color: #7cf03d; font-size: 32px; margin-bottom: 16px; }
 .contact-form { display: block; gap: 12px; }
 .contact-form .form-row { display: flex; gap: 12px; margin-bottom: 12px; }
