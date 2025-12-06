@@ -181,7 +181,7 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
         </div>
 
         <div class="projects-toggle">
-            <button id="toggleProjects" class="btn">+ Show more</button>
+            <button id="toggleProjects" type="button" class="btn">+ Show more</button>
         </div>
        <section id="contact" class="contact">
         <div class="container contact-container">
@@ -280,6 +280,15 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
             toggleBtn.addEventListener('click', ()=>{
                 isExpanded = !isExpanded;
                 updateDisplay();
+            });
+
+            // Delegated click handler as a fallback if direct listener is blocked
+            document.addEventListener('click', (e)=>{
+                const btn = e.target.closest && e.target.closest('#toggleProjects');
+                if(btn){
+                    isExpanded = !isExpanded;
+                    updateDisplay();
+                }
             });
             
             // Filter buttons

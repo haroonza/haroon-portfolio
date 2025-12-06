@@ -561,3 +561,10 @@ a {
     padding: 10px 20px;
     border-radius: 30px;
 }
+
+/* Ensure the toggle sits above nearby elements and receives pointer events */
+.projects-toggle {
+    position: relative;
+    z-index: 5;
+}
+.projects-toggle .btn { pointer-events: auto; }
