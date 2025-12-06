@@ -188,10 +188,18 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
        </section>
 
         <script>
-        // Projects filter logic
+        // Projects filter + carousel logic
         (function(){
             const buttons = document.querySelectorAll('.filter-btn');
-            const items = document.querySelectorAll('.project-item');
+            const allItems = Array.from(document.querySelectorAll('.project-item'));
+            const grid = document.querySelector('.project-grid');
+            let carousel = {
+                active: false,
+                pages: [],
+                current: 0,
+                interval: null,
+                controlsEl: null
+            };
 
             function setActiveButton(btn){
                 buttons.forEach(b => b.classList.remove('active'));
@@ -199,7 +207,7 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
             }
 
             function filterProjects(filter){
-                items.forEach(item => {
+                allItems.forEach(item => {
                     const cats = (item.dataset.categories || '').toLowerCase().split(',').map(s=>s.trim()).filter(Boolean);
                     if(filter === 'all' || cats.includes(filter)){
                         item.classList.remove('hidden');
@@ -207,6 +215,77 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
                         item.classList.add('hidden');
                     }
                 });
+                // after filtering, decide whether to enable carousel
+                setupCarousel(filter);
+            }
+
+            function clearCarouselElements(){
+                // remove any existing carousel pages and controls
+                const existingPages = grid.querySelectorAll('.carousel-page');
+                existingPages.forEach(p => p.remove());
+                if(carousel.controlsEl){ carousel.controlsEl.remove(); carousel.controlsEl = null; }
+                if(carousel.interval){ clearInterval(carousel.interval); carousel.interval = null; }
+                grid.classList.remove('carousel-mode');
+                carousel = { active:false, pages:[], current:0, interval:null, controlsEl:null };
+            }
+
+            function setupCarousel(filter){
+                clearCarouselElements();
+                const visible = allItems.filter(i => !i.classList.contains('hidden'));
+                if(filter === 'all' || visible.length > 4){
+                    // enable carousel
+                    grid.classList.add('carousel-mode');
+                    const perPage = 4;
+                    for(let i=0;i<visible.length;i+=perPage){
+                        const slice = visible.slice(i, i+perPage);
+                        const page = document.createElement('div');
+                        page.className = 'carousel-page';
+                        page.style.opacity = (i===0? '1' : '0');
+                        // use clones so we don't disturb original layout
+                        slice.forEach(item => {
+                            const clone = item.cloneNode(true);
+                            // ensure cloned links open PDFs
+                            const a = clone.querySelector('.project-link');
+                            if(a){
+                                a.addEventListener('click', function(e){
+                                    e.preventDefault();
+                                    const pdf = this.dataset.pdf;
+                                    if(pdf) window.open(pdf, '_blank');
+                                });
+                            }
+                            page.appendChild(clone);
+                        });
+                        grid.appendChild(page);
+                        carousel.pages.push(page);
+                    }
+                    // add controls
+                    const controls = document.createElement('div');
+                    controls.className = 'carousel-controls';
+                    controls.innerHTML = '<button class="carousel-prev">‹</button><button class="carousel-next">›</button>';
+                    grid.parentNode.insertBefore(controls, grid.nextSibling);
+                    carousel.controlsEl = controls;
+                    const prevBtn = controls.querySelector('.carousel-prev');
+                    const nextBtn = controls.querySelector('.carousel-next');
+                    prevBtn.addEventListener('click', ()=> showPage((carousel.current - 1 + carousel.pages.length) % carousel.pages.length));
+                    nextBtn.addEventListener('click', ()=> showPage((carousel.current + 1) % carousel.pages.length));
+                    // auto-advance
+                    if(carousel.pages.length > 1){
+                        carousel.interval = setInterval(()=> {
+                            showPage((carousel.current + 1) % carousel.pages.length);
+                        }, 4000);
+                    }
+                    carousel.active = true;
+                    carousel.current = 0;
+                }
+            }
+
+            function showPage(idx){
+                if(!carousel.active) return;
+                carousel.pages.forEach((p, i) => {
+                    p.style.transition = 'opacity 0.6s ease';
+                    p.style.opacity = (i === idx ? '1' : '0');
+                });
+                carousel.current = idx;
             }
 
             buttons.forEach(btn => {
@@ -219,6 +298,13 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
 
             // initial state
             filterProjects('all');
+
+            // teardown carousel when window resizes (so layout can adapt)
+            window.addEventListener('resize', ()=>{
+                // if carousel active, rebuild after resize to recalculate widths
+                const activeFilter = document.querySelector('.filter-btn.active');
+                if(activeFilter) setupCarousel(activeFilter.dataset.filter);
+            });
         })();
         </script>
         <script>
