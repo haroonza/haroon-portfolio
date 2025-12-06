@@ -93,7 +93,9 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
             <div class="project-item" data-categories="siem">
                 <a href="#" class="project-link" data-pdf="assets/projects/SIEM Setup.pdf">
                 <div class="project-card">
-                    <canvas class="project-thumbnail" data-pdf="assets/projects/SIEM Setup.pdf"></canvas>
+                        <div class="thumb">
+                            <canvas class="project-thumbnail" data-pdf="assets/projects/SIEM Setup.pdf"></canvas>
+                        </div>
                     <h3>SIEM Setup</h3>
                     <p class="proj-cat">SIEM</p>
                 </div>
@@ -103,7 +105,9 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
             <div class="project-item" data-categories="networking">
                 <a href="#" class="project-link" data-pdf="assets/projects/Network Mapping.pdf">
                 <div class="project-card">
-                    <canvas class="project-thumbnail" data-pdf="assets/projects/Network Mapping.pdf"></canvas>
+                        <div class="thumb">
+                            <canvas class="project-thumbnail" data-pdf="assets/projects/Network Mapping.pdf"></canvas>
+                        </div>
                     <h3>Network Mapping</h3>
                     <p class="proj-cat">Networking</p>
                 </div>
@@ -111,9 +115,11 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
             </div>
 
             <div class="project-item" data-categories="phishing">
-                <a href="#" class="project-link" data-pdf="https://drive.google.com/file/d/10--SEqaMLq35jHNMGQa9qTBePNbImRZS/view?usp=sharing">
+                <a href="#" class="project-link" data-pdf="https://raw.githubusercontent.com/haroonza/haroon-portfolio/main/assets/projects/analysis/Phishing_Analysis.pdf">
                 <div class="project-card">
-                    <canvas class="project-thumbnail" data-pdf="https://drive.google.com/file/d/10--SEqaMLq35jHNMGQa9qTBePNbImRZS/view?usp=sharing"></canvas>
+                        <div class="thumb">
+                            <canvas class="project-thumbnail" data-pdf="https://raw.githubusercontent.com/haroonza/haroon-portfolio/main/assets/projects/analysis/Phishing_Analysis.pdf"></canvas>
+                        </div>
                     <h3>Phishing Case Study</h3>
                     <p class="proj-cat">Phishing Analysis</p>
                 </div>
@@ -123,7 +129,9 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
             <div class="project-item" data-categories="siem,networking">
                 <a href="#" class="project-link" data-pdf="assets/projects/Log Pipeline.pdf">
                 <div class="project-card">
-                    <canvas class="project-thumbnail" data-pdf="assets/projects/Log Pipeline.pdf"></canvas>
+                        <div class="thumb">
+                            <canvas class="project-thumbnail" data-pdf="assets/projects/Log Pipeline.pdf"></canvas>
+                        </div>
                     <h3>Log Pipeline</h3>
                     <p class="proj-cat">SIEM • Networking</p>
                 </div>
@@ -258,14 +266,29 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
                 const pdfPath = canvas.dataset.pdf;
                 if(!pdfPath) return;
 
+                const container = canvas.closest('.thumb') || canvas.parentElement;
+                const ctx = canvas.getContext('2d');
+
                 pdfjsLib.getDocument(pdfPath).promise.then(pdf => {
                     pdf.getPage(1).then(page => {
-                        const scale = 1.5;
-                        const viewport = page.getViewport({ scale: scale });
-                        canvas.width = viewport.width;
-                        canvas.height = viewport.height;
+                        // compute target display width (CSS pixels)
+                        const displayWidth = Math.max(120, Math.floor((container.clientWidth) || 180));
+                        const devicePR = window.devicePixelRatio || 1;
 
-                        const ctx = canvas.getContext('2d');
+                        // get viewport at scale=1 to know original size
+                        const vp1 = page.getViewport({ scale: 1 });
+                        // compute scale so rendered canvas width matches displayWidth * devicePixelRatio
+                        const scale = (displayWidth * devicePR) / vp1.width;
+                        const viewport = page.getViewport({ scale });
+
+                        // set internal canvas size for crisp rendering
+                        canvas.width = Math.floor(viewport.width);
+                        canvas.height = Math.floor(viewport.height);
+
+                        // ensure CSS display matches container width and auto height
+                        canvas.style.width = (displayWidth) + 'px';
+                        canvas.style.height = 'auto';
+
                         page.render({ canvasContext: ctx, viewport: viewport }).promise.then(() => {
                             // thumbnail rendered
                         }).catch(err => {
@@ -273,15 +296,14 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
                             ctx.fillStyle = '#555';
                             ctx.fillRect(0, 0, canvas.width, canvas.height);
                             ctx.fillStyle = '#fff';
-                            ctx.font = '16px Arial';
+                            ctx.font = (16 * (window.devicePixelRatio || 1)) + 'px Arial';
                             ctx.fillText('PDF Preview', 10, 30);
                         });
                     });
                 }).catch(err => {
                     console.warn('Error loading PDF ' + pdfPath + ':', err);
-                    const ctx = canvas.getContext('2d');
                     ctx.fillStyle = '#333';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillRect(0, 0, canvas.width || 300, canvas.height || 180);
                     ctx.fillStyle = '#fff';
                     ctx.font = '14px Arial';
                     ctx.fillText('PDF not found', 10, 30);
