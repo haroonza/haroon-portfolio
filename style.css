@@ -79,6 +79,26 @@ a {
 {
     color: #7cf03d;
 }
+
+/* Dynamic contrast: light background */
+.navbar.light-bg .logo,
+.navbar.light-bg ul li a {
+    color: #1f242d;
+}
+.navbar.light-bg ul li a:hover,
+.navbar.light-bg ul li.active a {
+    color: #7cf03d;
+}
+
+/* Dynamic contrast: dark background */
+.navbar.dark-bg .logo,
+.navbar.dark-bg ul li a {
+    color: #ffffff;
+}
+.navbar.dark-bg ul li a:hover,
+.navbar.dark-bg ul li.active a {
+    color: #7cf03d;
+}
 .home {
     height: 100vh;
     display: flex;
