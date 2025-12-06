@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+        <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    </head>
+    <body>
+       <nav class="navbar">
+        <a href="#" class="logo">Portfolio</a>
+        <ul>
+            <li class="active"><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+       </nav>
+
+       <div class="bars-animation">
+        <div class="bar" style="--i:6;"></div>
+        <div class="bar" style="--i:5;"></div>
+        <div class="bar" style="--i:4;"></div>
+        <div class="bar" style="--i:3;"></div>
+        <div class="bar" style="--i:2;"></div>
+        <div class="bar" style="--i:1;"></div>
+       </div>
+       
+    <section id="home" class="home">
+        <div class="home-info">
+            <h1>Haroon Zaman</h1>
+            <h2>SOC Analyst</h2>
+            <p>Welcome to my cybersecurity portfolio.  
+I specialize in SOC operations, threat detection, log analysis, digital investigations, and incident response.  
+My goal is to identify threats before they escalate and protect infrastructures from real-world cyber attacks.  
+Scroll below to explore hands-on projects I've completed in SIEM, networking, threat hunting, phishing analysis, 
+and SOC automation.</p>
+                <div class="btn-sci">
+                    <a href="#" class="btn">Download CV</a>
+                    <div class="sci">
+                        <a href="#"><i class="ri-github-fill"></i></a>
+                        <a href="#"><i class="ri-linkedin-fill"></i></a>
+                        <a href="#"><i class="ri-mail-fill"></i></a>
+                    </div>
+                </div>
+        </div>
+        <div class="home-img">
+            <div class="img-box">
+                <div class="img-item">
+                    <img src="assets/images/mine12.png" alt="profile">
+                </div>
+            </div>
+        </div>
+<div class="about-me"></div>
+       </section>
+
+       <section id="about" class="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <p>I am a SOC Analyst with hands-on experience in Security Monitoring, Incident Response, Threat Hunting, and SIEM Engineering.
+My work includes building end-to-end security pipelines, analyzing malicious activity, and strengthening detection capabilities
+across cloud and on-prem environments.
+
+I have completed extensive practical labs involving SIEM deployments, network forensics, phishing analysis, 
+endpoint investigation, and cloud security architecture.  
+I enjoy breaking down complex attack patterns into actionable remediation steps and continuously improving defenses.
+</p>
+        </div>
+       </section>
+
+       <section id="projects" class="projects">
+        <div class="projects-panel">
+            <h2>Projects</h2>
+            <div class="filter-panel">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="siem">SIEM</button>
+                <button class="filter-btn" data-filter="networking">Networking</button>
+                <button class="filter-btn" data-filter="phishing">Phishing Analysis</button>
+            </div>
+        </div>
+
+        <div class="project-grid">
+            <!-- Sample project items. Add more `.project-item` elements as you add assets. -->
+            <div class="project-item" data-categories="siem">
+                <a href="#" class="project-link" data-pdf="assets/projects/SIEM Setup.pdf">
+                <div class="project-card">
+                    <canvas class="project-thumbnail" data-pdf="assets/projects/SIEM Setup.pdf"></canvas>
+                    <h3>SIEM Setup</h3>
+                    <p class="proj-cat">SIEM</p>
+                </div>
+                </a>
+            </div>
+
+            <div class="project-item" data-categories="networking">
+                <a href="#" class="project-link" data-pdf="assets/projects/Network Mapping.pdf">
+                <div class="project-card">
+                    <canvas class="project-thumbnail" data-pdf="assets/projects/Network Mapping.pdf"></canvas>
+                    <h3>Network Mapping</h3>
+                    <p class="proj-cat">Networking</p>
+                </div>
+                </a>
+            </div>
+
+            <div class="project-item" data-categories="phishing">
+                <a href="#" class="project-link" data-pdf="https://drive.google.com/file/d/10--SEqaMLq35jHNMGQa9qTBePNbImRZS/view?usp=sharing">
+                <div class="project-card">
+                    <canvas class="project-thumbnail" data-pdf="https://drive.google.com/file/d/10--SEqaMLq35jHNMGQa9qTBePNbImRZS/view?usp=sharing"></canvas>
+                    <h3>Phishing Case Study</h3>
+                    <p class="proj-cat">Phishing Analysis</p>
+                </div>
+                </a>
+            </div>
+
+            <div class="project-item" data-categories="siem,networking">
+                <a href="#" class="project-link" data-pdf="assets/projects/Log Pipeline.pdf">
+                <div class="project-card">
+                    <canvas class="project-thumbnail" data-pdf="assets/projects/Log Pipeline.pdf"></canvas>
+                    <h3>Log Pipeline</h3>
+                    <p class="proj-cat">SIEM • Networking</p>
+                </div>
+                </a>
+            </div>
+        </div>
+
+        </section>
+
+       <section id="contact" class="contact">
+        <div class="container contact-container">
+            <h2>Contact</h2>
+            <form id="contactForm" class="contact-form">
+                <div class="form-row">
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                </div>
+                <textarea id="message" name="message" rows="6" placeholder="Message" required></textarea>
+                <div class="form-actions">
+                    <button type="submit" class="btn">Send Message</button>
+                    <p class="form-note" id="formNote"></p>
+                </div>
+            </form>
+        </div>
+       </section>
+
+        <script>
+        // Projects filter logic
+        (function(){
+            const buttons = document.querySelectorAll('.filter-btn');
+            const items = document.querySelectorAll('.project-item');
+
+            function setActiveButton(btn){
+                buttons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+
+            function filterProjects(filter){
+                items.forEach(item => {
+                    const cats = (item.dataset.categories || '').toLowerCase().split(',').map(s=>s.trim()).filter(Boolean);
+                    if(filter === 'all' || cats.includes(filter)){
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            }
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', (e)=>{
+                    const filter = btn.dataset.filter;
+                    setActiveButton(btn);
+                    filterProjects(filter);
+                });
+            });
+
+            // initial state
+            filterProjects('all');
+        })();
+        </script>
+        <script>
+        // Contact form: open mail client with form content
+        (function(){
+            const form = document.getElementById('contactForm');
+            const note = document.getElementById('formNote');
+            if(!form) return;
+
+            form.addEventListener('submit', function(e){
+                e.preventDefault();
+                note.textContent = '';
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const message = document.getElementById('message').value.trim();
+                if(!name || !email || !message){
+                    note.textContent = 'Please fill all fields.';
+                    return;
+                }
+
+                const to = 'haroonzaman80@gmail.com';
+                const subject = encodeURIComponent('Portfolio contact from ' + name);
+                const body = encodeURIComponent('Name: ' + name + "\nEmail: " + email + "\n\n" + message);
+                // open user's mail client
+                window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+
+                // optionally show a note (mail client opens)
+                note.textContent = 'Opening your mail app...';
+            });
+        })();
+        </script>
+        <script>
+        // Navbar hide on scroll down, show on scroll up or when mouse is near top
+        (function(){
+            const navbar = document.querySelector('.navbar');
+            if(!navbar) return;
+
+            let lastScrollY = window.scrollY;
+
+            window.addEventListener('scroll', ()=>{
+                const currentY = window.scrollY;
+                // only start hiding after small scroll so initial nav isn't hidden immediately
+                if (currentY > lastScrollY && currentY > 60) {
+                    // scrolling down
+                    navbar.classList.add('hidden');
+                } else {
+                    // scrolling up
+                    navbar.classList.remove('hidden');
+                }
+                lastScrollY = currentY;
+            }, { passive: true });
+
+            // show navbar when mouse is near the top edge
+            window.addEventListener('mousemove', (e)=>{
+                if(e.clientY <= 60) {
+                    navbar.classList.remove('hidden');
+                }
+            });
+
+            // on touch devices, show nav when user scrolls to top
+            window.addEventListener('touchstart', ()=>{
+                if(window.scrollY <= 60) navbar.classList.remove('hidden');
+            }, { passive: true });
+        })();
+        </script>
+        <script>
+        // PDF.js setup: set worker from CDN
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        // Render PDF thumbnails
+        (function(){
+            const canvases = document.querySelectorAll('.project-thumbnail');
+            canvases.forEach(canvas => {
+                const pdfPath = canvas.dataset.pdf;
+                if(!pdfPath) return;
+
+                pdfjsLib.getDocument(pdfPath).promise.then(pdf => {
+                    pdf.getPage(1).then(page => {
+                        const scale = 1.5;
+                        const viewport = page.getViewport({ scale: scale });
+                        canvas.width = viewport.width;
+                        canvas.height = viewport.height;
+
+                        const ctx = canvas.getContext('2d');
+                        page.render({ canvasContext: ctx, viewport: viewport }).promise.then(() => {
+                            // thumbnail rendered
+                        }).catch(err => {
+                            console.warn('Error rendering PDF thumbnail for ' + pdfPath + ':', err);
+                            ctx.fillStyle = '#555';
+                            ctx.fillRect(0, 0, canvas.width, canvas.height);
+                            ctx.fillStyle = '#fff';
+                            ctx.font = '16px Arial';
+                            ctx.fillText('PDF Preview', 10, 30);
+                        });
+                    });
+                }).catch(err => {
+                    console.warn('Error loading PDF ' + pdfPath + ':', err);
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = '#333';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = '#fff';
+                    ctx.font = '14px Arial';
+                    ctx.fillText('PDF not found', 10, 30);
+                });
+            });
+        })();
+        </script>
+        <script>
+        // Project cards: open PDF in new window when clicked
+        (function(){
+            const projectLinks = document.querySelectorAll('.project-link');
+            projectLinks.forEach(link => {
+                link.addEventListener('click', function(e){
+                    e.preventDefault();
+                    const pdfPath = this.dataset.pdf;
+                    if(pdfPath){
+                        window.open(pdfPath, '_blank');
+                    }
+                });
+            });
+        })();
+        </script>
+    </body>
+</html>
