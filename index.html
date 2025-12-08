@@ -34,6 +34,8 @@
         <div class="bar" style="--i:2;"></div>
         <div class="bar" style="--i:1;"></div>
        </div>
+
+       <!---Home Section ------>
        
     <section id="home" class="home">
         <div class="home-info">
@@ -65,6 +67,8 @@ and SOC automation.</p>
 <div class="about-me"></div>
        </section>
 
+       <!---About Section ------>
+
        <section id="about" class="about">
         <div class="container">
             <h2>About Me</h2>
@@ -78,6 +82,8 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
 </p>
         </div>
        </section>
+
+       <!---Projects Section ------>
 
        <section id="projects" class="projects">
         <div class="projects-panel">
@@ -183,6 +189,9 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
         <div class="projects-toggle">
             <button id="toggleProjects" type="button" class="btn">+ Show more</button>
         </div>
+         </section>
+
+        <!---Contact Section ------>
        <section id="contact" class="contact">
         <div class="container contact-container">
             <h2>Contact</h2>
@@ -199,6 +208,9 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
             </form>
         </div>
        </section>
+
+
+       <----Script ------>
 
         <script>
         // Project grid clamp + filter (combined script)
@@ -263,33 +275,68 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
             }
             
             // Filter logic
-            function filterProjects(filter){
-                allItems.forEach(item => {
-                    const cats = (item.dataset.categories || '').toLowerCase().split(',').map(s=>s.trim()).filter(Boolean);
-                    if(filter === 'all' || cats.includes(filter)){
-                        item.classList.remove('hidden');
-                    } else {
-                        item.classList.add('hidden');
-                    }
-                });
-                isExpanded = false;
-                setTimeout(updateDisplay, 60);
+            let lastFilterIndex = 0;
+const filterOrder = ["all","siem","threat-analysis","incident-response","network-security","cloud-security","vulnerability-assessment","systems-identity"];
+
+          function filterProjects(filter) {
+    const newFilterIndex = filterOrder.indexOf(filter);
+    const direction = newFilterIndex > lastFilterIndex ? "left" : "right";
+    lastFilterIndex = newFilterIndex;
+
+    allItems.forEach(item => {
+        const categories = (item.dataset.categories || "")
+            .toLowerCase()
+            .split(',')
+            .map(s => s.trim());
+
+        if (filter === 'all' || categories.includes(filter)) {
+            item.classList.remove('hidden');
+
+            // remove previous animations
+            item.classList.remove('animate-in-left', 'animate-in-right');
+
+            // trigger new animation
+            if (direction === "left") {
+                item.classList.add('animate-in-left');
+            } else {
+                item.classList.add('animate-in-right');
             }
+
+        } else {
+            item.classList.add('hidden');
+        }
+    });
+
+    // Reset to collapsed mode when filter changes
+    isExpanded = false;
+    grid.classList.remove('expanded');
+    grid.classList.add('collapsed');
+    toggleBtn.textContent = "+ Show more";
+}
             
             // Toggle button click
             toggleBtn.addEventListener('click', ()=>{
                 isExpanded = !isExpanded;
-                updateDisplay();
-            });
+                    if (isExpanded) {
+                        grid.classList.remove('collapsed');
+                        grid.classList.add('expanded');
+                        toggleBtn.textContent = "- Show less";
+                    } else {
+                        grid.classList.remove('expanded');
+                        grid.classList.add('collapsed');
+                        toggleBtn.textContent = "+ Show more";
+                    }
+                });
 
             // Delegated click handler as a fallback if direct listener is blocked
-            document.addEventListener('click', (e)=>{
+            /* document.addEventListener('click', (e)=>{
                 const btn = e.target.closest && e.target.closest('#toggleProjects');
                 if(btn){
                     isExpanded = !isExpanded;
                     updateDisplay();
                 }
             });
+            */
             
             // Filter buttons
             buttons.forEach(btn => {
@@ -454,7 +501,49 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
                     }
                 });
             });
+
+        
         })();
+
+        let touchStartX = 0;
+let touchEndX = 0;
+
+grid.addEventListener("touchstart", (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+
+grid.addEventListener("touchend", (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+}, { passive: true });
+
+function handleSwipe() {
+    const swipeDistance = touchEndX - touchStartX;
+
+    // Minimum distance to count as swipe
+    if (Math.abs(swipeDistance) < 50) return;
+
+    let currentIndex = lastFilterIndex;
+
+    if (swipeDistance < 0) {
+        // Swiped LEFT → next filter
+        currentIndex++;
+    } else {
+        // Swiped RIGHT → previous filter
+        currentIndex--;
+    }
+
+    // Keep index in bounds
+    if (currentIndex < 0) currentIndex = 0;
+    if (currentIndex >= filterOrder.length) currentIndex = filterOrder.length - 1;
+
+    const nextFilter = filterOrder[currentIndex];
+    const nextButton = [...buttons].find(b => b.dataset.filter === nextFilter);
+
+    // Simulate clicking the filter button
+    nextButton.click();
+}
+
         </script>
     </body>
 </html>

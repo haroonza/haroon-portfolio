@@ -289,18 +289,6 @@ a {
     border-color: #7cf03d;
 }
 
-.project-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-.project-grid {
-    position: relative;
-    transition: max-height 0.36s ease;
-}
-.project-item {
-    display: block;
-}
 .project-link {
     display: contents;
     text-decoration: none;
@@ -514,7 +502,10 @@ a {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
+    overflow: hidden;
+    transition: max-height 0.45s ease, opacity 0.35s ease;
 }
+
 
 .project-item {
     display: block;
@@ -523,20 +514,69 @@ a {
 .project-item.hidden {
     display: none !important;
 }
-
-.projects-toggle {
-    display: flex;
-    justify-content: center;
-    margin-top: 18px;
+.project-grid.collapsed {
+    max-height: 600px; /* height of first 2 rows */
+    opacity: 1;
 }
+
+.project-grid.expanded {
+    max-height: 3000px; /* big enough to fit all items */
+    opacity: 1;
+}
+
 .projects-toggle .btn {
     padding: 10px 20px;
     border-radius: 30px;
 }
 
 /* Ensure the toggle sits above nearby elements and receives pointer events */
+
+
 .projects-toggle {
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
     position: relative;
     z-index: 5;
 }
 .projects-toggle .btn { pointer-events: auto; }
+
+/* Fade + slide in */
+.project-item.animate-in-left {
+    animation: slideInLeft 0.45s ease forwards;
+}
+
+.project-item.animate-in-right {
+    animation: slideInRight 0.45s ease forwards;
+}
+
+/* Slide animations */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Hide items smoothly */
+.project-item.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(0);
+    transition: opacity 0.25s ease;
+}
