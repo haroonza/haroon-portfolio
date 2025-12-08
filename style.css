@@ -61,19 +61,20 @@ a {
 .navbar ul {
     display: flex;
     align-items: center;
+    
 
 }
 
 .navbar ul li {
     list-style: none;
     margin-left: 35px;
+
 }
 
 .navbar ul li a {
     font-size: 20px;
     font-weight: 500;
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-   
 }
 .navbar ul li a:hover, 
 .navbar ul li.active a
