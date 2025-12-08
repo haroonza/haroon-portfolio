@@ -498,6 +498,7 @@ a {
     .btn { padding: 10px 15px; }
 }
 
+
 .project-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
