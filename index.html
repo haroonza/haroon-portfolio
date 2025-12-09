@@ -183,7 +183,18 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
                 </div>
                 </a>
             </div>
-        </div>
+
+            <div class="project-item" data-categories="threat-analysis">
+                <a href="#" class="project-link" data-pdf="https://haroonza.github.io/haroon-portfolio/assets/projects/Threat_Detection_&_Analysis/HoneyPot.pdf">
+                <div class="project-card">
+                    <div class="thumb">
+                        <canvas class="project-thumbnail" data-pdf="https://haroonza.github.io/haroon-portfolio/assets/projects/Threat_Detection_&_Analysis/HoneyPot.pdf"></canvas>
+                    </div>
+                    <h3>Deception-Based Threat Detection (Cowrie + Canary Tokens)</h3>
+                    <p class="proj-cat">Threat Analysis</p>
+                </div>
+                </a>
+            </div>
 
         <div class="project-item" data-categories="cloud-network-security">
                 <a href="#" class="project-link" data-pdf="https://haroonza.github.io/haroon-portfolio/assets/projects/Network_Security_&_Packet_Analysis/Launching_Resources/Launching_Resources.pdf">
@@ -191,11 +202,37 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
                     <div class="thumb">
                         <canvas class="project-thumbnail" data-pdf="https://haroonza.github.io/haroon-portfolio/assets/projects/Network_Security_&_Packet_Analysis/Launching_Resources/Launching_Resources.pdf"></canvas>
                     </div>
-                    <h3>Phishing Case Study</h3>
-                    <p class="proj-cat">Phishing Analysis</p>
+                    <h3>Launching Resources (AWS)</h3>
+                    <p class="proj-cat">Cloud Network Security</p>
                 </div>
                 </a>
             </div>
+
+         <div class="project-item" data-categories="cloud-network-security">
+                <a href="#" class="project-link" data-pdf="https://haroonza.github.io/haroon-portfolio/assets/projects/Network_Security_&_Packet_Analysis/Private_Subnet/Private_Subnet.pdf">
+                <div class="project-card">
+                    <div class="thumb">
+                        <canvas class="project-thumbnail" data-pdf="https://haroonza.github.io/haroon-portfolio/assets/projects/Network_Security_&_Packet_Analysis/Private_Subnet/Private_Subnet.pdf"></canvas>
+                    </div>
+                    <h3>Private Subnet (AWS)</h3>
+                    <p class="proj-cat">Cloud Network Security</p>
+                </div>
+                </a>
+            </div>
+
+        
+         <div class="project-item" data-categories="threat-analysis">
+                <a href="#" class="project-link" data-pdf="https://haroonza.github.io/haroon-portfolio/assets/projects/Threat_Detection_&_Analysis/Suricata/Suricata.pdf">
+                <div class="project-card">
+                    <div class="thumb">
+                        <canvas class="project-thumbnail" data-pdf="https://haroonza.github.io/haroon-portfolio/assets/projects/Threat_Detection_&_Analysis/Suricata/Suricata.pdf"></canvas>
+                    </div>
+                    <h3>Suricata Threat Detection</h3>
+                    <p class="proj-cat">Threat Analysis</p>
+                </div>
+                </a>
+            </div>
+
         </div>
 
         <div class="projects-toggle">
@@ -222,7 +259,7 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
        </section>
 
 
-       <----Script ------>
+       <!---Script ------>
 
         <script>
         // Project grid clamp + filter (combined script)
@@ -288,7 +325,7 @@ I enjoy breaking down complex attack patterns into actionable remediation steps 
             
             // Filter logic
             let lastFilterIndex = 0;
-const filterOrder = ["all","siem","threat-analysis","incident-response","network-security","cloud-security","vulnerability-assessment","systems-identity"];
+const filterOrder = ["all","siem","threat-analysis","incident-response","cloud-network-security","cloud-security","vulnerability-assessment","systems-identity"];
 
           function filterProjects(filter) {
     const newFilterIndex = filterOrder.indexOf(filter);
